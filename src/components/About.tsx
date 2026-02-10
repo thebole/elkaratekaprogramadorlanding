@@ -1,4 +1,4 @@
-import profilePhoto from "@/assets/profile-photo.jpg";
+// import profilePhoto from "@/assets/profile-photo.jpg";
 
 const About = () => {
   return (
@@ -13,11 +13,11 @@ const About = () => {
               
               {/* Photo container */}
               <div className="relative w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden border-2 border-border group-hover:border-primary/50 transition-colors duration-500">
-                <img
+                {/* <img
                   src={profilePhoto}
                   alt="Emmanuel - Karateka Programador"
                   className="w-full h-full object-cover photo-grayscale"
-                />
+                /> */}
               </div>
               
               {/* Corner accents */}

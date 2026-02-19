@@ -1,5 +1,10 @@
 import { ExternalLink, Github, Calendar, Building2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import micredixapp from "@/assets/micredixapp.png";
+import micredixweb from "@/assets/micredixweb.png";
+import prioritymax from "@/assets/prioritymax.png";
+import presentationfolders from "@/assets/presentationfolder.png";
+
 
 const experiences = [
   {
@@ -109,35 +114,35 @@ const experiences = [
 
 const projects = [
   {
-    title: "Sistema de Gestión Empresarial",
-    description: "Plataforma integral para gestión de inventario, ventas y reportes en tiempo real.",
-    image: "/placeholder.svg",
-    technologies: ["Angular", "Java", "PostgreSQL"],
-    liveUrl: "#",
+    title: "MiCredix",
+    description: "Plataforma móvil para gestión de créditos y préstamos personales.",
+    image: micredixapp,
+    technologies: ["Flutter", "Java", "Spring Boot", "SQL Server"],
+    liveUrl: "https://play.google.com/store/apps/details?id=com.Mobtion.Credix.Credixcel&hl=es_VE",
     githubUrl: "#",
   },
   {
-    title: "App de Delivery",
-    description: "Aplicación móvil para pedidos a domicilio con tracking en tiempo real y pasarela de pagos.",
-    image: "/placeholder.svg",
-    technologies: ["Flutter", "NodeJS", "Firebase"],
-    liveUrl: "#",
+    title: "MiCredixWeb",
+    description: "Plataforma web para gestión de créditos y préstamos personales.",
+    image: micredixweb,
+    technologies: ["Angular 8+", "Java", "Spring Boot", "SQL Server"],
+    liveUrl: "https://micredix.com/personas/sign/sign-in",
     githubUrl: "#",
   },
   {
-    title: "E-Commerce B2B",
-    description: "Marketplace para comercio mayorista con gestión de catálogos y facturación electrónica.",
-    image: "/placeholder.svg",
-    technologies: ["React", "Laravel", "MySQL"],
-    liveUrl: "#",
+    title: "PriorityMax",
+    description: "Aplicación móvil para gestión de crédito, compra en tienda y pagos de cuotas.",
+    image: prioritymax,
+    technologies: ["Flutter", "Dart", "Firebase", "REST APIs", "Laravel", "MySQL"],
+    liveUrl: "https://play.google.com/store/apps/details?id=com.innovo.prioritymax&hl=es_VE",
     githubUrl: "#",
   },
   {
-    title: "Dashboard Analytics",
-    description: "Panel de control con visualización de datos y reportes personalizables para toma de decisiones.",
-    image: "/placeholder.svg",
-    technologies: ["Angular", "NodeJS", "MongoDB"],
-    liveUrl: "#",
+    title: "Presentation Folders",
+    description: "Carpetas de presentación para proyectos y documentación técnica.",
+    image: presentationfolders,
+    technologies: ["Magento 2.x", "PHP", "MySQL"],
+    liveUrl: "https://presentationfolders.ca/",
     githubUrl: "#",
   },
 ];

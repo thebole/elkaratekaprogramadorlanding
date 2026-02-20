@@ -1,4 +1,4 @@
-// import profilePhoto from "@/assets/profile-photo.jpg";
+import profilePhoto from "@/assets/profile_2.webp";
 
 const About = () => {
   return (
@@ -13,11 +13,11 @@ const About = () => {
               
               {/* Photo container */}
               <div className="relative w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden border-2 border-border group-hover:border-primary/50 transition-colors duration-500">
-                {/* <img
+                <img
                   src={profilePhoto}
                   alt="Emmanuel - Karateka Programador"
                   className="w-full h-full object-cover photo-grayscale"
-                /> */}
+                />
               </div>
               
               {/* Corner accents */}
@@ -45,7 +45,7 @@ const About = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-8">
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-primary">5+</div>
+                <div className="text-3xl font-bold text-primary">8+</div>
                 <div className="text-sm text-muted-foreground">Años de experiencia</div>
               </div>
               <div className="text-center lg:text-left">

@@ -1,11 +1,63 @@
 import { Mail, MessageCircle, MapPin } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
+
+
+type Status = "idle" | "sending" | "success" | "error";
 
 const Contact = () => {
   const [openForm, setOpenForm] = useState<boolean>(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const redireccionarWs = () => {
     window.open("https://wa.me/584244017815", "_blank");
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
+    setErrorMsg("");
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setStatus("error");
+      setErrorMsg("Faltan variables de entorno de EmailJS (revisa .env.local).");
+      return;
+    }
+
+    if (!formRef.current) return;
+
+    try {
+      // Anti-spam mínimo (30s)
+      const last = Number(localStorage.getItem("last_email_ts") || "0");
+      if (Date.now() - last < 30_000) {
+        setStatus("error");
+        setErrorMsg("Espera 30 segundos antes de volver a enviar.");
+        return;
+      }
+
+      await emailjs.sendForm(serviceId, templateId, formRef.current, {
+        publicKey,
+      });
+
+      localStorage.setItem("last_email_ts", String(Date.now()));
+      formRef.current.reset();
+
+      setStatus("success");
+
+      // opcional: cerrar el form luego de enviar
+      setTimeout(() => setOpenForm(false), 1200);
+    } catch (err: any) {
+      setStatus("error");
+      setErrorMsg(err?.text || "No se pudo enviar el mensaje. Intenta de nuevo.");
+    }
   };
 
   return (
@@ -25,7 +77,11 @@ const Contact = () => {
               <Mail className="w-8 h-8 text-primary mx-auto mb-4" />
               <h3 className="font-semibold mb-2">Email</h3>
               <button
-                onClick={() => setOpenForm(!openForm)}
+                onClick={() => {
+                  setOpenForm(!openForm);
+                  setStatus("idle");
+                  setErrorMsg("");
+                }}
                 className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-accent text-primary-foreground px-3 py-2 rounded-lg font-semibold text-md transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5"
               >
                 <Mail className="w-5 h-5" />
@@ -51,30 +107,63 @@ const Contact = () => {
           </div>
 
           {openForm && (
-            <div className="p-6 rounded-xl bg-card border border-border">
-              <h3 className="font-semibold mb-4">Envíame un mensaje</h3>
-              <form className="space-y-4">
+            <div className="p-6 rounded-xl bg-card border border-border text-left">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold">Envíame un mensaje</h3>
+
+                <button
+                  type="button"
+                  onClick={() => setOpenForm(false)}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Cerrar
+                </button>
+              </div>
+
+              <form ref={formRef} onSubmit={onSubmit} className="space-y-4">
                 <input
                   type="text"
+                  name="from_name"
+                  required
                   placeholder="Tu nombre"
                   className="w-full px-4 py-2 rounded-lg border border-border bg-background focus:outline-none focus:border-primary"
                 />
+
                 <input
                   type="email"
+                  name="reply_to"
+                  required
                   placeholder="Tu email"
                   className="w-full px-4 py-2 rounded-lg border border-border bg-background focus:outline-none focus:border-primary"
                 />
+
                 <textarea
+                  name="message"
+                  required
                   placeholder="Tu mensaje"
                   rows={4}
                   className="w-full px-4 py-2 rounded-lg border border-border bg-background focus:outline-none focus:border-primary"
-                ></textarea>
+                />
+
                 <button
                   type="submit"
-                  className="w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90 transition-colors"
+                  disabled={status === "sending"}
+                  className="w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Enviar
+                  {status === "sending" ? "Enviando..." : "Enviar"}
                 </button>
+
+                {status === "success" && (
+                  <p className="text-sm text-primary">
+                    ✅ Mensaje enviado. Te respondo pronto.
+                  </p>
+                )}
+
+                {status === "error" && (
+                  <p className="text-sm text-red-500">
+                    ❌ {errorMsg}
+                  </p>
+                )}
               </form>
             </div>
           )}

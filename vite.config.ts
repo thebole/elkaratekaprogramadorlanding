@@ -6,7 +6,7 @@ import { componentTagger } from 'lovable-tagger'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), componentTagger()],
-  base: "./",
+  base: "/elkaratekaprogramadorlanding/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

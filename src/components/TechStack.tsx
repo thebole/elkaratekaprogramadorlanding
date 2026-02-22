@@ -39,7 +39,7 @@ const TechStack = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {techCategories.map((category, categoryIndex) => (
+          {techCategories.map((category) => (
             <div
               key={category.title}
               className="p-6 rounded-xl bg-card border border-border"
